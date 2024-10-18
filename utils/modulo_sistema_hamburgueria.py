@@ -214,6 +214,7 @@ def interface_hamburgueria(opc):
             #Encerramento
 
             elif (opc == 13):
+                print("Programa encerrado! Volte sempre...")
                 break
 
     except Exception as e:
