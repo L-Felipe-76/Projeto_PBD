@@ -1,13 +1,18 @@
-list_clientes_id = [1]
-list_clientes_nomes = ['Roberto']
-list_clientes_email = ['Roberto@gmail.com']
+from config.db import criar_conexao
+
+def interface_clientes(opc):
+    pass
+
+
 
 def cadastrar_cliente(nome: str, email:str):
     try:
         print('==========')
-        list_clientes_id.append(len(list_clientes_id) + 1)
-        list_clientes_nomes.append(nome)
-        list_clientes_email.append(email)
+        conn = criar_conexao()
+        cursor = conn.cursor()
+        sql = 'INSERT INTO clientes(nome, email) VALUES (%s, %s)'
+        cursor.execute(sql, [nome, email])
+        conn.commit()
         print("Cadastro realizado com sucesso")
     
     except Exception as e:
@@ -18,13 +23,13 @@ def cadastrar_cliente(nome: str, email:str):
 def listar_clientes():
     try:
         print('==========')
-        contador1 = 0
-        while contador1 < (len(list_clientes_id)):
-            if (list_clientes_id[contador1] >= 1):
-                print(f"Id: {list_clientes_id[contador1]} - Nome: {list_clientes_nomes[contador1]} - Email: {list_clientes_email[contador1]}")
-                contador1 += 1
-            else:
-                contador1 += 1
+        conn = criar_conexao()
+        cursor = conn.cursor()
+        sql = 'SELECT * FROM clientes'
+        cursor.execute (sql)
+        lista_clientes = cursor.fetchall()
+        for clientes in lista_clientes:
+            print(f"{clientes[0]} - {clientes[1]} - {clientes[2]}")
 
     except Exception as e:
         print('==========')
@@ -34,8 +39,8 @@ def listar_clientes():
 def alterar_clientes(escolha: int, nome: str, email: str):
     try:
         print("==========")
-        list_clientes_nomes[escolha] = nome
-        list_clientes_email[escolha] = email
+        listar_clientes()
+        
         print("Cliente alterado com sucesso!")
 
     except Exception as e:

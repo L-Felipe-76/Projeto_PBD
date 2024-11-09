@@ -1,4 +1,4 @@
-from servicos import modulo_login, moduloHaburgueria_Interface
+from servicos import modulo_login
 
 #Interface de conexão
 contador = 0
