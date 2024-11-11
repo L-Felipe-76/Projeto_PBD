@@ -9,7 +9,8 @@ def interface_hamburgueria(opc: int):
                 print("Valor invalido, insira um valor valido")
 
             elif (opc == 1):
-                #chamar modulo de clientes
+                opc2 = int(input("Digite o que desejar gerenciar: 1 - Cadastrar Cliente \n2 - Listar Clientes \n3 - Alterar Clientes \n4 - Deletar Clientes \n5 - Voltar"))
+                modulo_clientes.listar_clientes(opc2)
                 pass
             
             elif (opc == 2):

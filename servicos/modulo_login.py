@@ -32,7 +32,7 @@ def interface_login(opc):
             elif (opc == 3):
                 print('==========')
                 print("Programa encerrado")
-                return ("Desligar")
+                break
             
             print('==========')
             opc = int(input("O que deseja fazer? \n1 - Cadastrar \n2 - Login \n3 - Encerrar \n\nDigite o numero correspondente a sua escolha: "))
@@ -74,7 +74,7 @@ def cadastrar(usuario: str, senha: str):
         print(e)
     
     finally:
-        conn.close
+        conn.close()
 
 def login(usuario: str, senha: str):
     try:
@@ -90,7 +90,7 @@ def login(usuario: str, senha: str):
         print(e)
     
     finally:
-        conn.close
+        conn.close()
 
     if resultado:
         senha_hash = resultado[2]        

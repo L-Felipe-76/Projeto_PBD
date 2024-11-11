@@ -1,7 +1,21 @@
 from config.db import criar_conexao
 
 def interface_clientes(opc):
-    pass
+    c = 0
+    while c != 1:
+        if(opc < 1 or opc > 5):
+            print("Valor invalido, tente novamente!")
+        elif(opc == 1):
+            pass
+        elif(opc == 2):
+            pass
+        elif(opc == 3):
+            pass
+        elif(opc == 4):
+            pass
+        elif(opc == 5):
+            return(0)
+        opc = int(input("Digite o que desejar gerenciar: 1 - Cadastrar Cliente \n2 - Listar Clientes \n3 - Alterar Clientes \n4 - Deletar Clientes \n5 - Voltar"))
 
 
 
@@ -19,6 +33,9 @@ def cadastrar_cliente(nome: str, email:str):
         print('==========')
         print('Erro, verificando bug... tente novamente!')
         print(e)
+    
+    finally:
+        conn.close()
 
 def listar_clientes():
     try:
@@ -36,11 +53,17 @@ def listar_clientes():
         print('Erro, verificando bug... tente novamente!')
         print(e)
 
+    finally:
+        conn.close()
+
 def alterar_clientes(escolha: int, nome: str, email: str):
     try:
-        print("==========")
-        listar_clientes()
-        
+        print('==========')
+        conn = criar_conexao()
+        cursor = conn.cursor()
+        sql = 'update clientes set nome = %s, email = %s where id_cliente = %s'
+        cursor.execute(sql, [nome, email, escolha])
+        conn.commit()
         print("Cliente alterado com sucesso!")
 
     except Exception as e:
@@ -48,26 +71,25 @@ def alterar_clientes(escolha: int, nome: str, email: str):
         print('Erro, verificando bug... tente novamente!')
         print(e)
 
-def excluir_clientes():
+    finally:
+        conn.close()
+
+def excluir_clientes(escolha: int):
     try:
-        listar_clientes()
         print("==========")
-        escolha = (int(input("Digite o id do cliente a ser deletado: "))) - 1
-        c = 0
-        while c != 1:
-            if (escolha < 0 or escolha > len(list_clientes_id)):
-                print('==========')
-                print("Valor invalido, insira um valor valido")
-                print('==========')
-                escolha = (int(input("Digite o id do cliente a ser deletado: "))) - 1
-            else:
-                c = 1
-        list_clientes_id[escolha] = - 1
-        list_clientes_nomes[escolha] = 'null'
-        list_clientes_email[escolha] = 'null'
+        conn = criar_conexao()
+        cursor = conn.cursor()
+        sql1 = 'delete from pedidos where id_cliente = %s'
+        sql2 = 'delete from clientes where id_cliente = %s'
+        cursor.execute(sql1, [escolha, ])
+        cursor.execute(sql2, [escolha, ])
+        conn.commit()
         print("Cliente excluído com sucesso!")
 
     except Exception as e:
         print('==========')
         print('Erro, verificando bug... tente novamente!')
         print(e)
+
+    finally:
+        conn.close()
