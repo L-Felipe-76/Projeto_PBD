@@ -4,7 +4,8 @@ from servicos import modulo_clientes
 
 try:
     print ("==========")
-    modulo_clientes.listar_clientes()
+    busca = '@g'
+    modulo_clientes.listar_clientes(busca)
         
 except Exception as e:
     print ("==========")

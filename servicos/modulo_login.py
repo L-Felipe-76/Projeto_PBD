@@ -1,6 +1,7 @@
 import bcrypt
 import pwinput
 from config.db import criar_conexao
+from servicos import moduloHaburgueria_Interface
 
 def interface_login(opc):
     try:
@@ -14,7 +15,7 @@ def interface_login(opc):
             if (opc == 1):
                 print('==========')
                 usuario = str(input("Digite seu usuario: "))
-                senha = str(input("Digite sua senha: "))
+                senha = str(pwinput.pwinput("Digite sua senha: "))
                 cadastrar(usuario, senha)
 
             elif (opc == 2):
@@ -25,6 +26,9 @@ def interface_login(opc):
                     if autenticacao:
                         print('==========')
                         print(f'Bem vindo {autenticacao[1]}!')
+                        print('==========')
+                        opc = int(input("Digite o que deseja gerenciar \n1 - Clientes \n2 - Produtos \n3 - Pedidos \n4 - Sair \nEscolha: "))
+                        moduloHaburgueria_Interface.interface_hamburgueria(opc)
                     else:
                         print('==========')
                         print("Usuario ou senha invalidos! \nTente novamente")
