@@ -26,9 +26,10 @@ def interface_login(opc):
                     if autenticacao:
                         print('==========')
                         print(f'Bem vindo {autenticacao[1]}!')
+                        usuariopassagem = autenticacao[0]
                         print('==========')
                         opc = int(input("Digite o que deseja gerenciar \n1 - Clientes \n2 - Produtos \n3 - Pedidos \n4 - Sair \nEscolha: "))
-                        moduloHaburgueria_Interface.interface_hamburgueria(opc)
+                        moduloHaburgueria_Interface.interface_hamburgueria(opc, usuariopassagem)
                     else:
                         print('==========')
                         print("Usuario ou senha invalidos! \nTente novamente")

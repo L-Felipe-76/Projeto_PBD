@@ -75,7 +75,7 @@ def buscar_produtos(busca: str):
         conn = criar_conexao()
         cursor = conn.cursor()
         sql = 'SELECT * FROM produtos WHERE nome ILIKE %s'
-        cursor.execute(sql, [busca, ])
+        cursor.execute(sql, [f'%{busca}%', ])
         lista_produtos = cursor.fetchall()
         if (not lista_produtos ):
             print("Nenhum produto encontrado")

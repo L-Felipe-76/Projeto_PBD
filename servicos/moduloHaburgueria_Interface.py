@@ -1,6 +1,6 @@
 from servicos import modulo_clientes, modulo_produtos, modulo_pedidos
 
-def interface_hamburgueria(opc: int):
+def interface_hamburgueria(opc: int, usuario):
     try:
         CONTADOR = 0
         while CONTADOR != 1:
@@ -20,11 +20,10 @@ def interface_hamburgueria(opc: int):
             
             elif (opc == 3):
                 print ("==========")
-                #chamar modulo de pedidos
-                pass
+                opc2 = int(input("Digite o que desejar gerenciar: \n1 - Cadastrar Pedidos \n2 - Buscar Pedidos \n3 - Alterar Pedidos \n4 - Deletar Pedidos \n5 - Voltar \nEscolha: "))
+                local = modulo_pedidos.interface_pedidos(opc2, usuario)
 
             elif (opc == 4):
-                #voltar
                 return 0
             
             print ("==========")
