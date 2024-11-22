@@ -185,7 +185,11 @@ def buscar_pedido(busca: str, usuario):
         conn = criar_conexao()
         cursor = conn.cursor()
         sql = 'SELECT p.id_pedido, c.nome, p2.nome, p.mesa, p.valor_total, p.data_pedido, p.hora_pedido FROM pedidos p INNER JOIN clientes c on p.id_cliente = c.id_cliente INNER JOIN produtos p2 on p.id_produto = p2.id_produto WHERE c.nome ILIKE %s AND p.id_login = %s ORDER BY p.id_pedido'
-        cursor.execute (sql, [f'%{busca}%', usuario])
+        sql1 = 'SELECT p.id_pedido, c.nome, p2.nome, p.mesa, p.valor_total, p.data_pedido, p.hora_pedido FROM pedidos p INNER JOIN clientes c on p.id_cliente = c.id_cliente INNER JOIN produtos p2 on p.id_produto = p2.id_produto WHERE c.nome ILIKE %s ORDER BY p.id_pedido'
+        if(usuario != 1):
+            cursor.execute (sql, [f'%{busca}%', usuario])
+        else:
+            cursor.execute (sql1, [f'%{busca}%', ])
         lista_pedidos = cursor.fetchall()
         if (not lista_pedidos):
             print("Nenhum pedido encontrado")
@@ -221,7 +225,11 @@ def excluir_pedido(id: int, usuario):
         conn = criar_conexao()
         cursor = conn.cursor()
         sql = 'DELETE FROM pedidos WHERE id_pedido = %s AND id_login = %s'
-        cursor.execute(sql, [id, usuario])
+        sql1 = 'DELETE FROM pedidos WHERE id_login = %s'
+        if(usuario != 1):
+            cursor.execute(sql, [id, usuario])
+        else:
+            cursor.execute (sql1, [id, ])
         conn.commit()
         print("Pedido excluído com sucesso!")
 

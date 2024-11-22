@@ -8,17 +8,11 @@ def interface_login(opc):
         contador = 1
 
         while contador != 0:
-            if (opc <1 or opc > 3):
+            if (opc < 1 or opc > 2):
                 print('==========')
                 print("Valor invalido, insira um valor valido")
 
-            if (opc == 1):
-                print('==========')
-                usuario = str(input("Digite seu usuario: "))
-                senha = str(pwinput.pwinput("Digite sua senha: "))
-                cadastrar(usuario, senha)
-
-            elif (opc == 2):
+            elif (opc == 1):
                     print('==========')
                     usuario = str(input("Digite seu usuario: "))
                     senha = str(pwinput.pwinput("Digite sua senha: "))
@@ -28,19 +22,23 @@ def interface_login(opc):
                         print(f'Bem vindo {autenticacao[1]}!')
                         usuariopassagem = autenticacao[0]
                         print('==========')
-                        opc = int(input("Digite o que deseja gerenciar \n1 - Clientes \n2 - Produtos \n3 - Pedidos \n4 - Sair \nEscolha: "))
-                        moduloHaburgueria_Interface.interface_hamburgueria(opc, usuariopassagem)
+                        if (usuariopassagem != 1):
+                            opc = int(input("Digite o que deseja gerenciar \n1 - Clientes \n2 - Produtos \n3 - Pedidos \n4 - Sair \nEscolha: "))
+                            moduloHaburgueria_Interface.interface_hamburgueria(opc, usuariopassagem)
+                        else:
+                            opc = int(input("Digite o que deseja gerenciar \n1 - Logins \n2 - Sistema \n3 - Sair \nEscolha: "))
+                            moduloHaburgueria_Interface.interface_hamburgueria_admin(opc, usuariopassagem)
                     else:
                         print('==========')
                         print("Usuario ou senha invalidos! \nTente novamente")
 
-            elif (opc == 3):
+            elif (opc == 2):
                 print('==========')
                 print("Programa encerrado")
                 break
             
             print('==========')
-            opc = int(input("O que deseja fazer? \n1 - Cadastrar \n2 - Login \n3 - Encerrar \n\nDigite o numero correspondente a sua escolha: "))
+            opc = int(input("O que deseja fazer? \n1 - Login \n2 - Encerrar \n\nDigite o numero correspondente a sua escolha: "))
             
     except Exception as e:
         print('==========')
@@ -61,7 +59,7 @@ def checar_password(password, hashed):
 
 
 
-def cadastrar(usuario: str, senha: str):
+def cadastrar_login(usuario: str, senha: str):
     try:
         hashed_password = criotpgrafar(senha)
 
@@ -80,6 +78,47 @@ def cadastrar(usuario: str, senha: str):
     
     finally:
         conn.close()
+        return(0)
+    
+def listar_logins(usuario):
+    try:
+        print('==========')
+        conn = criar_conexao()
+        cursor = conn.cursor()
+        sql = 'SELECT *  FROM logins WHERE usuario ILIKE %s'
+        cursor.execute(sql, [f'%{usuario}%', ])
+        lista_logins = cursor.fetchall()
+        if (not lista_logins):
+            print("Nenhum login encontrado")
+        for logins in lista_logins:
+            print(f"{logins[0]} - {logins[1]}")
+
+    except Exception as e:
+        print('==========')
+        print('Erro, verificando bug... tente novamente!')
+        print(e)
+    
+    finally:
+        conn.close()
+    
+def excluir_login(id: int):
+    try:
+        print('==========')
+        conn = criar_conexao()
+        cursor = conn.cursor()
+        sql = 'DELETE FROM logins WHERE id_login = %s'
+        cursor.execute(sql, [id, ])
+        conn.commit()
+        print("Exclusão realizada com sucesso")
+
+    except Exception as e:
+        print('==========')
+        print('Erro, verificando bug... tente novamente!')
+        print(e)
+    
+    finally:
+        conn.close()
+        return(0)
 
 def login(usuario: str, senha: str):
     try:
